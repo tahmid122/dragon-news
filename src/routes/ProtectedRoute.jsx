@@ -1,8 +1,9 @@
 import React, { use } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
   const { user, loading } = use(AuthContext);
   if (loading) {
     return (
@@ -12,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
     );
   }
   if (!user) {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={"/login"} state={location.pathname} />;
   }
   return <div>{children}</div>;
 };

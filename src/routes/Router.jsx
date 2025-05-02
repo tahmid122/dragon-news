@@ -6,6 +6,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import NewsDetails from "../components/NewsDetails";
 import ProtectedRoute from "./ProtectedRoute";
+import Loading from "../components/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,8 @@ export const router = createBrowserRouter([
         hydrateFallbackElement: (
           <span className="loading loading-dots loading-xl"></span>
         ),
+        // eslint-disable-next-line no-dupe-keys
+        hydrateFallbackElement: <Loading />,
         loader: () => fetch("/news.json"),
       },
     ],
@@ -31,6 +34,7 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     loader: () => fetch("/news.json"),
+    hydrateFallbackElement: <Loading />,
   },
   {
     path: "/register",

@@ -4,7 +4,6 @@ const categoryData = fetch("/categories.json").then((res) => res.json());
 
 const CategoriesBox = () => {
   const categories = use(categoryData);
-  // console.log(categories);
   return (
     <div>
       <h1 className="font-semibold text-xl">All Category</h1>

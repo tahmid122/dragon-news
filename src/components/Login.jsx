@@ -1,22 +1,27 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import NavBar from "./NavBar";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 
 const Login = () => {
-  const { signInUser } = use(AuthContext);
+  const { signInUser, user } = use(AuthContext);
+  const location = useLocation();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  if (user && location.state == "") {
+    navigate("/");
+  }
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
     signInUser(email, password)
-      .then((result) => {
-        console.log(result.user);
-        navigate("/");
+      .then(() => {
+        navigate(location.state || "/");
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => setError(error.message));
   };
   return (
     <div className="w-11/12 mx-auto py-5">
@@ -87,6 +92,11 @@ const Login = () => {
                   Sign in
                 </button>
               </div>
+              {error && (
+                <p className="text-red-500 text-sm font-bold text-center">
+                  {error}
+                </p>
+              )}
             </form>
 
             <p className="mt-10 text-center text-sm/6 text-gray-500">

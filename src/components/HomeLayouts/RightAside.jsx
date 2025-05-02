@@ -7,7 +7,7 @@ import { AuthContext } from "../../AuthContext/AuthContext";
 const RightAside = () => {
   const { user } = use(AuthContext);
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 ">
       {user ? "" : <LoginButtons />}
       <SocialButtons />
       <Qzones />

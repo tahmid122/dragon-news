@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import RightAside from "./HomeLayouts/RightAside";
 import { Link, useLoaderData, useParams } from "react-router";
-
 const NewsDetails = () => {
   const { id } = useParams();
   const [targetNews, setTargetNews] = useState({});
@@ -10,10 +9,8 @@ const NewsDetails = () => {
   useEffect(() => {
     const filteredNews = news.find((n) => n.id === id);
     setTargetNews(filteredNews);
-    console.log(filteredNews);
   }, [news, id]);
   const { image_url, details, title, category_id } = targetNews;
-  console.log(news);
   return (
     <div className="w-11/12 mx-auto py-3">
       <Header />

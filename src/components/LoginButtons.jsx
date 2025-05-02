@@ -6,12 +6,16 @@ const LoginButtons = () => {
 
   const handleGoogleSignIn = () => {
     googleSignIn()
-      .then((result) => console.log(result.user))
+      .then(() => {
+        // console.log(result.user);
+      })
       .catch((error) => console.log(error.message));
   };
   const handleGithubSignIn = () => {
     githubSignIn()
-      .then((result) => console.log(result.user))
+      .then(() => {
+        // console.log(result.user);
+      })
       .catch((error) => console.log(error.message));
   };
   return (

@@ -4,7 +4,6 @@ import CategoryCard from "../components/CategoryCard";
 
 const CategoryNews = () => {
   const { id } = useParams();
-  console.log(id);
   const data = useLoaderData();
   const [news, setNews] = useState([]);
 
@@ -18,12 +17,11 @@ const CategoryNews = () => {
       );
       setNews(filteredNews);
     } else {
-      console.log("ff");
       const filteredNews = data.filter((news) => news.category_id == id);
       setNews(filteredNews);
     }
   }, [id, data]);
-  console.log(news);
+
   return (
     <div>
       <h2 className="text-xl font-bold mb-5">Dragon News Home</h2>

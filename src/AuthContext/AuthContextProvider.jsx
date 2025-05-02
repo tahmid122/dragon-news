@@ -14,9 +14,11 @@ import { auth } from "../firebase/firebase.config";
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
   const createUser = (email, password) => {
@@ -24,7 +26,6 @@ const AuthContextProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
   const updateUser = (name, photoURL) => {
-    setLoading(true);
     const obj = { displayName: name, photoURL: photoURL };
     return updateProfile(auth.currentUser, obj);
   };
@@ -41,14 +42,8 @@ const AuthContextProvider = ({ children }) => {
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       setLoading(false);
-      if (currentUser) {
-        setUser(currentUser);
-        console.log(currentUser);
-      } else {
-        setUser(null);
-        console.log(currentUser);
-      }
     });
     return () => {
       unsubscribe();
@@ -62,6 +57,7 @@ const AuthContextProvider = ({ children }) => {
     githubSignIn,
     userSignOut,
     user,
+    setUser,
     loading,
   };
 

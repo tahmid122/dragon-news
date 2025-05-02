@@ -1,25 +1,32 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import NavBar from "./NavBar";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 
 const Register = () => {
   const { createUser, updateUser } = use(AuthContext);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  // if (user) {
+  //   navigate("/");
+  // }
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const photoURL = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password, name, photoURL);
     createUser(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
+        // console.log(result.user);
         updateUser(name, photoURL)
-          .then(() => console.log("Updated name and photoURL"))
-          .catch((error) => console.log(error.message));
+          .then(() => {
+            // console.log("Updated name and photoURL");
+            navigate("/");
+          })
+          .catch((error) => setError(error.message));
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => setError(error.message));
   };
   return (
     <div className="w-11/12 mx-auto py-5">
@@ -113,6 +120,11 @@ const Register = () => {
                 >
                   Create an account
                 </button>
+                {error && (
+                  <p className="text-red-500 text-sm font-bold text-center">
+                    {error}
+                  </p>
+                )}
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <Link
