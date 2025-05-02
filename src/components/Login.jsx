@@ -1,19 +1,20 @@
-import React, { use, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import NavBar from "./NavBar";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 
 const Login = () => {
-  const { signInUser, user } = use(AuthContext);
+  const { signInUser, user, handleResetPass } = use(AuthContext);
   const location = useLocation();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const emailRef = useRef();
   if (user && location.state == "") {
     navigate("/");
   }
 
   const handleLogin = (e) => {
+    setError("");
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -21,6 +22,12 @@ const Login = () => {
       .then(() => {
         navigate(location.state || "/");
       })
+      .catch((error) => setError(error.message));
+  };
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+    handleResetPass(email)
+      .then(() => alert("Reset link sent to your mail"))
       .catch((error) => setError(error.message));
   };
   return (
@@ -47,6 +54,7 @@ const Login = () => {
                   <input
                     id="email"
                     name="email"
+                    ref={emailRef}
                     type="email"
                     required
                     autoComplete="email"
@@ -64,12 +72,12 @@ const Login = () => {
                     Password
                   </label>
                   <div className="text-sm">
-                    <a
-                      href="#"
+                    <button
+                      onClick={handleForgetPassword}
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
                 </div>
                 <div className="mt-2">

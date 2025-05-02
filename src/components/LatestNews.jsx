@@ -1,7 +1,7 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
 
-const LatestNews = () => {
+const LatestNews = ({ news }) => {
   return (
     <div className="flex items-center gap-5 bg-base-200 p-3">
       <button className="text-base-100 bg-secondary px-3 py-2 rounded cursor-pointer">
@@ -9,18 +9,11 @@ const LatestNews = () => {
       </button>
 
       <Marquee className="flex gap-5" pauseOnHover={true}>
-        <p className="font-bold text-lg">
-          Match Highlights: Germany vs Spain — as it happened ! Match
-          Highlights: Germany vs Spain as...
-        </p>
-        <p className="font-bold text-lg">
-          Match Highlights: Germany vs Spain — as it happened ! Match
-          Highlights: Germany vs Spain as...
-        </p>
-        <p className="font-bold text-lg">
-          Match Highlights: Germany vs Spain — as it happened ! Match
-          Highlights: Germany vs Spain as...
-        </p>
+        {news?.map((singleNews) => (
+          <p key={singleNews.id} className="font-bold text-lg">
+            {singleNews.title} &nbsp;
+          </p>
+        ))}
       </Marquee>
     </div>
   );
